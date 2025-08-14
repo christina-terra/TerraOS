@@ -1,0 +1,28 @@
+<svg width="59" height="59" viewBox="0 0 59 59" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>terra-cube-logo</title>
+<desc>Terra Universal cube logo extracted from original</desc>
+<defs>
+<path id="path14_fill" fill-rule="evenodd" d="M 54.5796 0L 4.33333 0C 1.95 0 0 1.93594 0 4.30208L 0 54.186C 0 56.5521 1.95 58.4881 4.33333 58.4881L 54.5796 58.4881C 56.9629 58.4881 58.9129 56.5521 58.9129 54.186L 58.9129 4.30208C 58.9129 1.93594 56.9629 0 54.5796 0ZM 54.5796 2.45825C 55.6035 2.45825 56.4367 3.28548 56.4367 4.302L 56.4367 54.1859C 56.4367 55.2024 55.6035 56.0296 54.5796 56.0296L 4.33334 56.0296C 3.30943 56.0296 2.4762 55.2024 2.4762 54.1859L 2.4762 4.302C 2.4762 3.28548 3.30943 2.45825 4.33334 2.45825L 54.5796 2.45825Z"/>
+<path id="path15_fill" fill-rule="evenodd" d="M 10.5238 10.038L 13.1034 10.038L 13.1034 35.7472L 23.2143 35.7472L 23.2143 10.038L 35.9048 10.038L 35.9048 0L 0 0L 0 10.038L 10.5238 10.038Z"/>
+<path id="path16_fill" fill-rule="evenodd" d="M 0 10.038L 10.4204 10.038L 10.4204 0L 0 0L 0 10.038Z"/>
+<path id="path17_fill" fill-rule="evenodd" d="M 35.9048 0L 25.7939 0L 25.7939 25.7086L 10.5238 25.7086L 10.5238 0L 0 0L 0 35.3385L 35.9048 35.3385L 35.9048 0Z"/>
+<path id="path18_fill" fill-rule="evenodd" d="M 0 35.3385L 10.4204 35.3385L 10.4204 0L 0 0L 0 35.3385Z"/>
+</defs>
+<g id="terra-cube">
+<g id="Frame">
+<use xlink:href="#path14_fill" fill="#005978"/>
+</g>
+<g id="T-Shape-Top">
+<use xlink:href="#path15_fill" transform="translate(5.05 5.53)" fill="#005978"/>
+</g>
+<g id="T-Corner-Red">
+<use xlink:href="#path16_fill" transform="translate(43.56 5.53)" fill="#AD1D3F"/>
+</g>
+<g id="T-Shape-Bottom">
+<use xlink:href="#path17_fill" transform="translate(5.05 18.13)" fill="#005978"/>
+</g>
+<g id="T-Corner-Blue">
+<use xlink:href="#path18_fill" transform="translate(43.56 18.13)" fill="#005978"/>
+</g>
+</g>
+</svg>
