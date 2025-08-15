@@ -2,14 +2,18 @@ import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
-import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "TerraOS - Terra Universal Enterprise Intelligence Platform",
+  description:
+    "Enterprise intelligence platform integrating real-time operational data with advanced analytics and AI workflow automation",
   generator: "v0.app",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 }
 
 export default function RootLayout({
@@ -20,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <style>{`
 html {
   font-family: ${GeistSans.style.fontFamily};
@@ -28,10 +33,7 @@ html {
 }
         `}</style>
       </head>
-      <body>
-        <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }

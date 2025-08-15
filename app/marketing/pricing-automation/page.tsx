@@ -1,0 +1,2158 @@
+"use client"
+
+export default function PricingAutomationPage() {
+  return (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Automation Tool - Enhanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+            font-size: 13px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #1a202c;
+        }
+        
+        .main-container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        .sidebar {
+            width: 340px;
+            background: white;
+            padding: 24px;
+            overflow-y: auto;
+            border-right: 1px solid #e2e8f0;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #4a5568;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+            transition: all 0.15s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: rgb(0, 90, 120);
+            box-shadow: 0 0 0 3px rgba(0, 90, 120, 0.1);
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .pricing-rule-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .pricing-rule-header {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rule-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .rule-icon.decrease {
+            background: #fee;
+            color: #e53e3e;
+        }
+        
+        .rule-icon.increase {
+            background: #f0fff4;
+            color: #38a169;
+        }
+        
+        .rule-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+        
+        .rule-row input[type="number"] {
+            width: 60px;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .filter-grouping {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .filter-group {
+            margin-bottom: 8px;
+        }
+        
+        /* Range */
+        
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        
+        .range-input-wrapper {
+            flex: 1;
+            min-width: 80px;
+            position: relative;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+        }
+        
+        .range-input {
+            -webkit-appearance: none;
+            appearance: none;
+            position: absolute;
+            width: 100%; 
+            height: 6px;
+            background: transparent;
+            pointer-events: none;
+            outline: none;
+        }
+        
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: rgb(0, 90, 120);
+            border-radius: 50%;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        
+        .range-input::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: rgb(0, 90, 120);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            pointer-events: auto;
+        }
+        
+        .range-track {
+            position: absolute;
+            height: 6px;
+            background: rgb(0, 90, 120);
+            border-radius: 3px;
+        }
+        
+        .range-value-input {
+            width: 40px;
+            padding: 4px 6px;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        
+        /* Calendar */
+        
+        .date-range-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        
+        .date-input {
+            width: 110px;
+            padding: 6px 8px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .date-separator {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        /* Button */
+        .btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            position: relative;
+            gap: 8px;
+        }
+        
+        .btn-go {
+            background: linear-gradient(135deg, rgb(0, 90, 120) 0%, rgb(0, 70, 100) 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-go:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 90, 120, 0.3);
+        }
+        
+        .btn-primary {
+            background: rgb(0, 90, 120);
+            color: white;
+            border: 1px solid rgba(0, 90, 120, 0.3);
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: rgb(0, 75, 100);
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(0, 90, 120, 0.15);
+        }
+        
+        .btn-secondary {
+            background: #f8f8f8;
+            color: #242835;
+            border: 1px solid #bcc0c4;
+        }
+        
+        .btn-secondary:hover {
+            background: #eef1f5;
+        }
+        
+        .btn-semi-primary {
+            background: rgba(0, 90, 120, 0.1);
+            color: rgb(0, 90, 120);
+            border: 1px solid rgba(0, 90, 120, 0.3);
+            font-weight: 600;
+        }
+        
+        .btn-semi-primary:hover {
+            background: rgba(0, 90, 120, 0.15);
+            border-color: rgba(0, 90, 120, 0.5);
+        }
+        
+        .btn-align-right {
+            margin-left: auto;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: rgb(0, 90, 120);
+            border: 1px solid rgb(0, 90, 120);
+            width: 150px;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(0, 90, 120, 0.05);
+        }
+        
+        
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            display: none;
+            margin-left: 8px; /* space between text and spinner */
+        }
+        
+        
+        .btn.loading .btn-text {
+            opacity: 0.8;
+            transition: opacity 1s linear;
+            padding-right: 12px; 
+        }
+        
+        .btn:not(.loading) .btn-text {
+            opacity: 1;
+            transition: opacity 0.2s linear;
+        }
+        
+        .btn.loading .loading-spinner {
+            display: inline-block;
+            animation: spinAndFade 1s linear 1 forwards;
+        }
+        
+        
+        @keyframes spinAndFade {
+            0% {
+                transform: translateY(-50%) rotate(0deg);
+                opacity: 1;
+            }
+            90% {
+                transform: translateY(-50%) rotate(360deg);
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        
+        .main-content {
+            flex: 1;
+            background: #f5f7fa;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation */
+        
+        .tabs {
+            display: flex;
+            background-color: #f1f5f9;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .tab:hover {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+        
+        .tab.active {
+            background-color: #ffffff;
+            color: rgb(0, 90, 120);
+            border-bottom-color: rgb(0, 90, 120);
+            box-shadow: 0 -2px 8px rgba(0, 90, 120, 0.1);
+        }
+        
+        /* Toolbar */
+        
+        .toolbar {
+            background: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .toolbar-left {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .product-count {
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        /* Table */
+        
+        .table-container {
+            flex: 1;
+            overflow: auto;
+            background: white;
+            margin: 0 24px 24px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        /* Add border to the entire header row - cleaner look */
+        thead tr:last-child th {
+            border-bottom: 3px solid #cbd5e0;
+        }
+        
+        th {
+            background: #f7fafc;
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #4a5568;
+            position: sticky;
+            z-index: 10;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th.sortable:hover {
+            background: #edf2f7;
+        }
+        
+        th.sorted-asc::after {
+            content: ' ↑';
+            color: rgb(0, 90, 120);
+        }
+        
+        th.sorted-desc::after {
+            content: ' ↓';
+            color: rgb(0, 90, 120);
+        }
+        
+        th.group-header {
+            background: #e8eaed;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 10px;
+            top: 0;
+            border-bottom: 1px solid #dadfe4;
+        }
+        
+        /* Sticky Column Styles */
+        .sticky-column {
+            position: sticky;
+            background: white;
+            z-index: 5;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+        }
+        
+        th.sticky-column {
+            z-index: 11;
+            background: #f7fafc;
+        }
+        
+        .checkbox-cell.sticky-column {
+            left: 0;
+            min-width: 40px;
+        }
+        
+        .product-cell.sticky-column {
+            left: 40px;
+            min-width: 320px;
+        }
+        
+        .checkbox-cell.sticky-column:hover {
+            
+            background: #f7fafc;
+        }
+        
+        .product-cell.sticky-column:hover {
+            
+            background: #f7fafc;
+        }
+        
+        
+        
+        .column-group {
+            border-left: 1px solid #d0d7de;
+        }
+        
+        .column-group-first {
+            border-left: none;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        
+        td.column-group {
+            border-left: 1px solid #e8eaed;
+        }
+        
+        tbody tr {
+            transition: background-color 0.15s;
+        }
+        
+        tbody tr:hover {
+            background: #f7fafc;
+            cursor: pointer;
+        }
+        
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+        
+        .product-cell {
+            min-width: 320px;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .part-number {
+            font-size: 11px;
+            color: rgb(0, 90, 120);
+            margin-top: 2px;
+        }
+        
+        .price {
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: right;
+        }
+        
+        .price-change-input {
+            width: 50px;
+            padding: 3px 3px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            background: #f7fafc;
+        }
+        
+        .won-rate {
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .won-rate-low { color: #e53e3e; }
+        .won-rate-mid { color: #ed8936; }
+        .won-rate-high { color: #38a169; }
+        
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 20px 0;
+        }
+        
+        .preset-save-group {
+            margin-top: 16px;
+        }
+        
+        
+        /* Price Change Tooltip Styles */
+        .price-change-tooltip {
+            position: absolute;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            z-index: 1000;
+            width: 320px;
+            display: none;
+        }
+        
+        .price-change-header {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a202c;
+        }
+        
+        .price-change-section {
+            margin-bottom: 16px;
+        }
+        
+        .price-change-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .price-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .price-detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .price-detail-label {
+            color: #4a5568;
+        }
+        
+        .price-detail-value {
+            font-weight: 600;
+            color: #2d3748;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+        }
+        
+        .price-change-indicator {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .price-increase {
+            background: #f0fff4;
+            color: #38a169;
+        }
+        
+        .price-decrease {
+            background: #fee;
+            color: #e53e3e;
+        }
+        
+        .price-no-change {
+            background: #f7fafc;
+            color: #718096;
+        }
+        
+        .price-impact-summary {
+            background: #f7fafc;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+        
+        .impact-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .impact-metric:last-child {
+            margin-bottom: 0;
+        }
+        
+        .impact-label {
+            color: #4a5568;
+        }
+        
+        .impact-value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        /* Revenue Tooltip Styles */
+        .revenue-tooltip {
+            position: absolute;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            z-index: 1000;
+            width: 340px;
+            display: none;
+        }
+        
+        .revenue-tooltip-header {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #1a202c;
+            white-space: pre-line;
+        }
+        
+        .revenue-chart-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 8px;
+            padding: 10px 0;
+            font-size: 10px;
+            color: #718096;
+            text-align: right;
+        }
+        
+        .y-axis-label {
+            position: absolute;
+            right: -26px;
+            top: 70%;
+            transform: rotate(90deg) translateX(-50%);
+            transform-origin: center;
+            font-size: 11px;
+            color: #4A5568;
+            font-weight: 600;
+        }
+        
+        .revenue-chart {
+            height: 140px;
+            position: relative;
+            background: #f7fafc;
+            border-radius: 4px;
+            padding: 10px;
+            flex: 1;
+            margin-left: 10px; /* Add space for Y-axis label */
+        }
+        
+        .chart-bar {
+            position: absolute;
+            bottom: 6px;
+            width: 18px;
+            background: #CBD5E0;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .chart-bar:hover {
+            background: rgb(0, 90, 120);
+        }
+        
+        .chart-bar.after-change {
+            background: rgb(0, 90, 120);
+        }
+        
+        .price-change-marker {
+            position: absolute;
+            top: 0px;
+            bottom: 6px;
+            width: 2px;
+            background: #E53E3E;
+            z-index: 2;
+        }
+        
+        .price-change-label {
+            position: absolute;
+            top: -16px;
+            left: -40px;
+            width: 80px;
+            text-align: center;
+            font-size: 10px;
+            color: #E53E3E;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .month-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #718096;
+            margin-top: -8px;
+            padding: 0 10px;
+            margin-left: 34px; /* Align with chart, accounting for Y-axis */
+            margin-right: 4px;
+        }
+        .revenue-forecast {
+            background: #F7FAFC;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+        
+        .forecast-title {
+            font-size: 12px;
+            color: #4A5568;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        
+        .forecast-value {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .forecast-positive {
+            color: #38A169;
+        }
+        
+        .forecast-negative {
+            color: #E53E3E;
+        }
+        
+        .forecast-details {
+            font-size: 11px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        
+        .context-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .context-menu-item {
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .context-menu-item:hover {
+            background: #f7fafc;
+        }
+        
+        .context-menu-item input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- Revenue Performance Tooltip -->
+    <div class="revenue-tooltip" id="revenueTooltip">
+        <div class="revenue-tooltip-header">Revenue Performance - Last 12 Months</div>
+        <div class="revenue-chart-wrapper">
+            <div class="y-axis" id="yAxis"></div>
+            <div class="revenue-chart" id="revenueChart">
+                <!-- <div class="y-axis-label">Revenue</div> -->
+            </div>
+        </div>
+        <div class="month-labels" id="monthLabels"></div>
+        <div class="revenue-forecast">
+            <div class="forecast-title">Forecasted Annual Revenue Impact</div>
+            <div class="forecast-value" id="forecastValue">+$45,230</div>
+            <div class="forecast-details" id="forecastDetails">
+                Based on 47 units/year sold at new price
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Change Tooltip -->
+<div class="price-change-tooltip" id="priceChangeTooltip">
+    <div class="price-change-header">
+        <span id="priceTooltipProductName">Product Name</span>
+    </div>
+    
+    <div class="price-change-section">
+        <div class="price-detail-row">
+            <span class="price-detail-label">Current Sell Price</span>
+            <span class="price-detail-value" id="tooltipCurrentSell">$0</span>
+        </div>
+        <div class="price-detail-row">
+            <span class="price-detail-label">Suggested Sell Price</span>
+            <span class="price-detail-value">
+                <span id="tooltipSuggestSell">$0</span>
+                <span class="price-change-indicator" id="tooltipSellChange">0%</span>
+            </span>
+        </div>
+    </div>
+    
+    <div class="price-change-section">
+        <div class="price-detail-row">
+            <span class="price-detail-label">Current Base Price</span>
+            <span class="price-detail-value" id="tooltipCurrentBase">$0</span>
+        </div>
+        <div class="price-detail-row">
+            <span class="price-detail-label">Suggested Base Price</span>
+            <span class="price-detail-value">
+                <span id="tooltipSuggestBase">$0</span>
+                <span class="price-change-indicator" id="tooltipBaseChange">0%</span>
+            </span>
+        </div>
+    </div>
+    
+    <div class="price-change-section">
+        <div class="price-detail-row">
+            <span class="price-detail-label">Max Discount (%)</span>
+            <span class="price-detail-value" id="tooltipMaxDiscount">20%</span>
+        </div>
+        <div class="price-detail-row">
+            <span class="price-detail-label">Discount Price</span>
+            <span class="price-detail-value" id="tooltipDiscountPrice">$0</span>
+        </div>
+        <div class="price-detail-row">
+            <span class="price-detail-label">Prior Price</span>
+            <span class="price-detail-value" id="tooltipPriorPrice">$0</span>
+        </div>
+        <div class="price-detail-row">
+            <span class="price-detail-label">Last Change Date</span>
+            <span class="price-detail-value" id="tooltipLastChange">--</span>
+        </div>
+    </div>
+    
+    <div class="price-impact-summary">
+        <div class="impact-metric">
+            <span class="impact-label">Margin Impact</span>
+            <span class="impact-value" id="tooltipMarginImpact">--</span>
+        </div>
+        <div class="impact-metric">
+            <span class="impact-label">Expected Volume Change</span>
+            <span class="impact-value" id="tooltipVolumeChange">--</span>
+        </div>
+        <div class="impact-metric">
+            <span class="impact-label">Revenue Confidence</span>
+            <span class="impact-value" id="tooltipConfidence">--</span>
+        </div>
+    </div>
+</div>
+    
+    <div class="header">
+        <h1>Pricing Automation</h1>
+    </div>
+    
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="section-title">Product Selection</div>
+                
+                <div class="filter-grouping">
+                    <div class="form-group">
+                        <label class="form-label">Product Category</label>
+                        <select id="categorySelect">
+                            <option value="">Select a category</option>
+                            <option value="30" selected>Air Showers & Tunnels (30) - P4 - $6</option>
+                            <option value="268">Biosafety Cabinets (268)</option>
+                            <option value="268_453">&nbsp;&nbsp;&nbsp;&nbsp;→ Class II A2 Biosafety Cabinets (453)</option>
+                            <option value="268_454">&nbsp;&nbsp;&nbsp;&nbsp;→ Class II B2 Biosafety Cabinets (454)</option>
+                            <option value="268_455">&nbsp;&nbsp;&nbsp;&nbsp;→ Class II C1 Biosafety Cabinets (455)</option>
+                            <option value="6">Desiccators & Desiccator Cabinets (6)</option>
+                            <option value="6_417">&nbsp;&nbsp;&nbsp;&nbsp;→ Adjust-A-Shelf™ Desiccator Cabinets (417)</option>
+                            <option value="6_418">&nbsp;&nbsp;&nbsp;&nbsp;→ IsoDry® Desiccator Cabinets (418)</option>
+                            <option value="6_420">&nbsp;&nbsp;&nbsp;&nbsp;→ Smart® Desiccator Cabinets (420)</option>
+                            <option value="29">Cleanroom Equipment & Furniture (29)</option>
+                            <option value="29_8">&nbsp;&nbsp;&nbsp;&nbsp;→ Shoe Cleaners & Sticky Mats (8)</option>
+                            <option value="29_15">&nbsp;&nbsp;&nbsp;&nbsp;→ Mirrors (15)</option>
+                            <option value="29_35">&nbsp;&nbsp;&nbsp;&nbsp;→ Dispensers (35)</option>
+                            <option value="10">Cleanrooms (10)</option>
+                            <option value="270">Fume Hoods (270)</option>
+                            <option value="3">Glove Boxes & Isolators (3)</option>
+                            <option value="269">Laminar Flow Hoods & Clean Benches (269)</option>
+                            <option value="4">Pass Throughs (4)</option>
+                            <option value="85">Storage & Shelving (85)</option>
+                            <option value="80">Workstations & Tables (80)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parent Product</label>
+                        <select id="parentProductSelect">
+                            <option selected>6010-PP-03: Air Showers and Tunnels</option>
+                            <option>6010-PP-04: Standard Air Showers</option>
+                            <option>6010-PP-05: Custom Air Showers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="checkbox-label" style="margin-top: 12px;">
+                        <input type="checkbox" id="showStandalone">
+                        <label for="showStandalone">Show Standalone Products</label>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="sidebar-section">
+                <div class="section-title">Pricing Rules</div>
+                
+                <div class="pricing-rule-card">
+                    <div class="pricing-rule-header">
+                        <div class="rule-icon decrease">↓</div>
+                        <span>Price Decrease Rules</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>If Won Rate <</span>
+                        <input type="number" value="30">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Decrease price by</span>
+                        <input type="number" value="5">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>But no more than</span>
+                        <input type="number" value="20">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Within</span>
+                        <input type="number" value="12">
+                        <span>months</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Until conversion rate reaches</span>
+                        <input type="number" value="50">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Or if conversion rate rises by</span>
+                        <input type="number" value="10">
+                        <span>%</span>
+                    </div>
+                </div>
+                
+                <div class="pricing-rule-card">
+                    <div class="pricing-rule-header">
+                        <div class="rule-icon increase">↑</div>
+                        <span>Price Increase Rules</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>If Won Rate ></span>
+                        <input type="number" value="80">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Increase price by</span>
+                        <input type="number" value="10">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>But no more than</span>
+                        <input type="number" value="15">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Within</span>
+                        <input type="number" value="6">
+                        <span>months</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Until conversion rate reaches</span>
+                        <input type="number" value="60">
+                        <span>%</span>
+                    </div>
+                    <div class="rule-row">
+                        <span>Or if conversion rate rises by</span>
+                        <input type="number" value="5">
+                        <span>%</span>
+                    </div>
+                </div>
+                
+                <div class="preset-save-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Presets</label>
+                        <a href="#" style="font-size: 12px; text-decoration: none; color: rgb(0, 90, 120);">Save as New</a>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 4px;">
+                        <select style="flex: 1; padding: 4px 8px; font-size: 12px; height:30px;">
+                            <option>Default</option>
+                            <option>Conservative</option>
+                            <option>Aggressive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <button class="btn btn-primary btn-align-right" id="calculateBtn" style="margin-top: 16px; height: 30px; width: 110px;">
+                    <span class="btn-text">Calculate</span>
+                    <span class="loading-spinner"></span>
+                </button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="sidebar-section">
+                <div class="section-title">Filters</div>
+                
+                <div class="filter-grouping">
+                    
+                    <!-- Quotes -->
+                    <div class="filter-group">
+                        <label class="form-label">Quotes</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="quotesMin" value="0" min="0" max="100">
+                            <div class="range-input-wrapper" id="quotesWrapper">
+                                <div class="range-track" id="quotesTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="quotesMinRange" min="0" max="100" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="quotesMaxRange" min="0" max="100" value="100">
+                            </div>
+                            <input type="number" class="range-value-input" id="quotesMax" value="100" min="0" max="100">
+                        </div>
+                    </div>
+                    
+                    <!-- Orders -->
+                    <div class="filter-group">
+                        <label class="form-label">Orders</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="ordersMin" value="0" min="0" max="100">
+                            <div class="range-input-wrapper" id="ordersWrapper">
+                                <div class="range-track" id="ordersTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="ordersMinRange" min="0" max="100" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="ordersMaxRange" min="0" max="100" value="100">
+                            </div>
+                            <input type="number" class="range-value-input" id="ordersMax" value="100" min="0" max="100">
+                        </div>
+                    </div>
+                    
+                    <!-- Conversion Rate % -->
+                    <div class="filter-group">
+                        <label class="form-label">Conversion Rate %</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="conversionMin" value="0" min="0" max="100">
+                            <div class="range-input-wrapper" id="conversionWrapper">
+                                <div class="range-track" id="conversionTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="conversionMinRange" min="0" max="100" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="conversionMaxRange" min="0" max="100" value="100">
+                            </div>
+                            <input type="number" class="range-value-input" id="conversionMax" value="100" min="0" max="100">
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                <div class="filter-grouping">
+                    
+                    <!-- Qty Quoted -->
+                    <div class="filter-group">
+                        <label class="form-label">Qty Quoted</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="qtyQuotedMin" value="0" min="0" max="1000">
+                            <div class="range-input-wrapper" id="qtyQuotedWrapper">
+                                <div class="range-track" id="qtyQuotedTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="qtyQuotedMinRange" min="0" max="1000" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="qtyQuotedMaxRange" min="0" max="1000" value="1000">
+                            </div>
+                            <input type="number" class="range-value-input" id="qtyQuotedMax" value="1000" min="0" max="1000">
+                        </div>
+                    </div>
+                    
+                    <!-- Qty Ordered -->
+                    <div class="filter-group">
+                        <label class="form-label">Qty Ordered</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="qtyOrderedMin" value="0" min="0" max="1000">
+                            <div class="range-input-wrapper" id="qtyOrderedWrapper">
+                                <div class="range-track" id="qtyOrderedTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="qtyOrderedMinRange" min="0" max="1000" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="qtyOrderedMaxRange" min="0" max="1000" value="1000">
+                            </div>
+                            <input type="number" class="range-value-input" id="qtyOrderedMax" value="1000" min="0" max="1000">
+                        </div>
+                    </div>
+                    
+                    <!-- Open Stock -->
+                    <div class="filter-group">
+                        <label class="form-label">Open Stock</label>
+                        <div class="range-container">
+                            <input type="number" class="range-value-input" id="stockMin" value="0" min="0" max="1000">
+                            <div class="range-input-wrapper" id="stockWrapper">
+                                <div class="range-track" id="stockTrack"></div>
+                                <input type="range" class="range-input" tabindex="-1" id="stockMinRange" min="0" max="1000" value="0">
+                                <input type="range" class="range-input" tabindex="-1" id="stockMaxRange" min="0" max="1000" value="1000">
+                            </div>
+                            <input type="number" class="range-value-input" id="stockMax" value="1000" min="0" max="1000">
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                <div class="filter-grouping">
+                    <div class="filter-group">
+                        <label class="form-label">Product Entry Date</label>
+                        <div class="date-range-container">
+                            <input type="date" id="entryDateStart" class="date-input" placeholder="Start Date"> 
+                            <span class="date-separator">–</span>
+                            <input type="date" id="entryDateEnd" class="date-input" placeholder="End Date">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="form-label">Last Price Change</label>
+                        <div class="date-range-container">
+                            <input type="date" id="priceChangeStart" class="date-input" placeholder="Start Date">
+                            <span class="date-separator">–</span>
+                            <input type="date" id="priceChangeEnd" class="date-input" placeholder="End Date">
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="preset-save-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label class="form-label" style="margin: 0;">Presets</label>
+                        <a href="#" style="font-size: 12px; text-decoration: none; color: rgb(0, 90, 120);">Save as New</a>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 4px;">
+                        <select style="flex: 1; padding: 6px 10px; font-size: 12px; height:30px;">
+                            <option>Default</option>
+                            <option>High Volume</option>
+                            <option>Low Performers</option>
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px;">
+                    <button class="btn btn-secondary" style="font-size: 12px; height: 30px; width: 110px;">
+                        Reset Filters
+                    </button>
+                    <button class="btn btn-semi-primary" style="font-size: 12px; height: 30px; width: 110px;">
+                        Apply
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="tabs">
+                <div class="tab active">Suggestions</div>
+                <div class="tab">Feedback</div>
+                <div class="tab">Pricing Log</div>
+            </div>
+            
+            <div class="toolbar" style="margin-bottom: 24px;">
+                <div class="toolbar-left">
+                    <div class="checkbox-label" style="min-width: 80px;">
+                        <input type="checkbox" id="selectAll">
+                        <label for="selectAll" style="white-space: nowrap;">Select All</label>
+                    </div>
+                    <button class="btn btn-go" style="font-weight: 400; width: 140px; height: 32px; padding: 6px; margin: 0px 10px; white-space: nowrap;">Approve Selected</button>
+                    <input type="text" class="search-input" placeholder="Search by part number or product name..." style="max-width: 350px;">
+                </div>
+                <button class="btn btn-secondary" style="width: 100px; padding: 6px; white-space: nowrap;">Export CSV</button>
+                <div class="product-count">8 products shown</div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="group-header column-group-first">Product Data</th>
+                            <th colspan="9" class="group-header column-group">Pricing Data</th>
+                            <th colspan="5" class="group-header column-group">Sales Data</th>
+                        </tr>
+                        <tr>
+                            <th class="checkbox-cell column-group-first sticky-column" style="top: 32px;"></th>
+                            <th class="sortable column-group-first sticky-column product-cell" style="top: 32px;">Product</th>
+                            <th class="sortable column-group" style="top: 32px;">Current Sell Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Suggest Sell Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Current Base Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Suggest Base Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Price Change %</th>
+                            <th class="sortable column-group" style="top: 32px;">Max Discount</th>
+                            <th class="sortable column-group" style="top: 32px;">Discount Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Prior Price</th>
+                            <th class="sortable column-group" style="top: 32px;">Last Change Date</th>
+                            <th class="sortable column-group" style="top: 32px;">Entry Date</th>
+                            <th class="sortable column-group" style="top: 32px;">Quotes</th>
+                            <th class="sortable column-group" style="top: 32px;">Won</th>
+                            <th class="sortable column-group" style="top: 32px;">Won %</th>
+                            <th class="sortable column-group" style="top: 32px;">Open Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-product-id="6010-04C" data-annual-qty="12">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox"></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 52" W x 84" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-04C</div>
+                            </td>
+                            <td class="price column-group">$34,227</td>
+                            <td class="price column-group">$32,516</td>
+                            <td class="price column-group">$34,227</td>
+                            <td class="price column-group">$32,516</td>
+                            <td class="column-group text-center"><input type="number" value="-5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$24,301</td>
+                            <td class="price column-group">$33,556</td>
+                            <td class="column-group text-center">03/13/20</td>
+                            <td class="column-group text-center">09/29/20</td>
+                            <td class="column-group text-center">10</td>
+                            <td class="column-group text-center">1</td>
+                            <td class="won-rate column-group">10%</td>
+                            <td class="column-group text-center">0</td>
+                        </tr>
+                        <tr data-product-id="6010-07C" data-annual-qty="48">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox" checked></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 58" W x 60" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-07C</div>
+                            </td>
+                            <td class="price column-group">$32,165</td>
+                            <td class="price column-group">$31,534</td>
+                            <td class="price column-group">$32,165</td>
+                            <td class="price column-group">$31,534</td>
+                            <td class="column-group text-center"><input type="number" value="-2" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$22,837</td>
+                            <td class="price column-group">$31,534</td>
+                            <td class="column-group text-center">03/13/20</td>
+                            <td class="column-group text-center">09/29/20</td>
+                            <td class="column-group text-center">15</td>
+                            <td class="column-group text-center">4</td>
+                            <td class="won-rate column-group">27%</td>
+                            <td class="column-group text-center">100</td>
+                        </tr>
+                        <tr data-product-id="6010-08C" data-annual-qty="36">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox"></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 58" W x 72" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-08C</div>
+                            </td>
+                            <td class="price column-group">$33,133</td>
+                            <td class="price column-group">$31,476</td>
+                            <td class="price column-group">$33,133</td>
+                            <td class="price column-group">$31,476</td>
+                            <td class="column-group text-center"><input type="number" value="-5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$23,524</td>
+                            <td class="price column-group">$32,483</td>
+                            <td class="column-group text-center">03/13/20</td>
+                            <td class="column-group text-center">09/29/20</td>
+                            <td class="column-group text-center">18</td>
+                            <td class="column-group text-center">3</td>
+                            <td class="won-rate column-group">17%</td>
+                            <td class="column-group text-center">100</td>
+                        </tr>
+                        <tr data-product-id="6010-09C" data-annual-qty="12">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox" checked></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 58" W x 84" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-09C</div>
+                            </td>
+                            <td class="price column-group">$35,059</td>
+                            <td class="price column-group">$33,306</td>
+                            <td class="price column-group">$35,059</td>
+                            <td class="price column-group">$33,306</td>
+                            <td class="column-group text-center"><input type="number" value="-5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$24,891</td>
+                            <td class="price column-group">$34,372</td>
+                            <td class="column-group text-center">03/13/20</td>
+                            <td class="column-group text-center">09/29/20</td>
+                            <td class="column-group text-center">11</td>
+                            <td class="column-group text-center">1</td>
+                            <td class="won-rate column-group">9%</td>
+                            <td class="column-group text-center">0</td>
+                        </tr>
+                        <tr data-product-id="6010-42D" data-annual-qty="24">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox"></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 52" W x 96" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-42D</div>
+                            </td>
+                            <td class="price column-group">$53,088</td>
+                            <td class="price column-group">$50,434</td>
+                            <td class="price column-group">$53,088</td>
+                            <td class="price column-group">$50,434</td>
+                            <td class="column-group text-center"><input type="number" value="-5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$42,470</td>
+                            <td class="price column-group">$74,649</td>
+                            <td class="column-group text-center">08/07/24</td>
+                            <td class="column-group text-center">05/28/24</td>
+                            <td class="column-group text-center">10</td>
+                            <td class="column-group text-center">2</td>
+                            <td class="won-rate column-group">20%</td>
+                            <td class="column-group text-center">100</td>
+                        </tr>
+                        <tr data-product-id="6010-44D" data-annual-qty="12">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox" checked></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 52" W x 144" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-44D</div>
+                            </td>
+                            <td class="price column-group">$55,084</td>
+                            <td class="price column-group">$52,330</td>
+                            <td class="price column-group">$55,084</td>
+                            <td class="price column-group">$52,330</td>
+                            <td class="column-group text-center"><input type="number" value="-5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$44,067</td>
+                            <td class="price column-group">$93,310</td>
+                            <td class="column-group text-center">01/22/24</td>
+                            <td class="column-group text-center">05/28/24</td>
+                            <td class="column-group text-center">6</td>
+                            <td class="column-group text-center">1</td>
+                            <td class="won-rate column-group">17%</td>
+                            <td class="column-group text-center">0</td>
+                        </tr>
+                        <tr data-product-id="6010-54C" data-annual-qty="12">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox"></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 58" W x 144" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-54C</div>
+                            </td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="price column-group">$52,580</td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="price column-group">$52,580</td>
+                            <td class="column-group text-center"><input type="number" value="5" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$40,960</td>
+                            <td class="price column-group">$60,332</td>
+                            <td class="column-group text-center">01/27/23</td>
+                            <td class="column-group text-center">05/28/24</td>
+                            <td class="column-group text-center">3</td>
+                            <td class="column-group text-center">1</td>
+                            <td class="won-rate column-group">33%</td>
+                            <td class="column-group text-center">0</td>
+                        </tr>
+                        <tr data-product-id="6010-58C" data-annual-qty="48">
+                            <td class="checkbox-cell column-group-first sticky-column"><input type="checkbox" checked></td>
+                            <td class="column-group-first product-cell sticky-column">
+                                <div class="product-name">Air Shower: Standard, 58" W x 120" D x 120" H, Stainless Steel</div>
+                                <div class="part-number">6010-58C</div>
+                            </td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="price column-group">$50,076</td>
+                            <td class="column-group text-center"><input type="number" value="0" class="price-change-input"></td>
+                            <td class="column-group text-center">20</td>
+                            <td class="price column-group">$40,060</td>
+                            <td class="price column-group">$60,332</td>
+                            <td class="column-group text-center">01/27/23</td>
+                            <td class="column-group text-center">05/28/24</td>
+                            <td class="column-group text-center">17</td>
+                            <td class="column-group text-center">4</td>
+                            <td class="won-rate column-group">24%</td>
+                            <td class="column-group text-center">0</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="context-menu" id="columnMenu">
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-product" checked>
+            <label for="col-product">Product</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-current-sell" checked>
+            <label for="col-current-sell">Current Sell Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-suggest-sell" checked>
+            <label for="col-suggest-sell">Suggest Sell Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-current-base" checked>
+            <label for="col-current-base">Current Base Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-suggest-base" checked>
+            <label for="col-suggest-base">Suggest Base Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-max-discount" checked>
+            <label for="col-max-discount">Max Discount</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-discount-price" checked>
+            <label for="col-discount-price">Discount Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-prior-price" checked>
+            <label for="col-prior-price">Prior Price</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-last-change" checked>
+            <label for="col-last-change">Last Change Date</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-entry-date" checked>
+            <label for="col-entry-date">Entry Date</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-quotes" checked>
+            <label for="col-quotes">Quotes</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-won" checked>
+            <label for="col-won">Won</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-won-rate" checked>
+            <label for="col-won-rate">Won %</label>
+        </div>
+        <div class="context-menu-item">
+            <input type="checkbox" id="col-open-stock" checked>
+            <label for="col-open-stock">Open Stock</label>
+        </div>
+    </div>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    
+    <script>
+
+        
+        // Revenue Tooltip Functionality
+        let tooltipTimeout;
+        let priceTooltipTimeout;
+        const tooltip = document.getElementById('revenueTooltip');
+        const priceTooltip = document.getElementById('priceChangeTooltip');
+        
+        function generateMonthlyRevenue(productId) {
+            // Generate sample monthly revenue data
+            const base = 25000 + Math.random() * 30000;
+            const trend = Math.random() > 0.5 ? 1 : -1;
+            const data = [];
+            
+            for (let i = 0; i < 12; i++) {
+                const seasonal = Math.sin((i / 12) * 2 * Math.PI) * 5000;
+                const random = (Math.random() - 0.5) * 8000;
+                const trendFactor = trend * i * 500;
+                data.push(Math.round(base + seasonal + random + trendFactor));
+            }
+            
+            return data;
+        }
+        
+        function showRevenueTooltip(event, row) {
+            clearTimeout(tooltipTimeout);
+            
+            if (!tooltip) {
+                console.error('Revenue tooltip element not found');
+                return;
+            }
+            
+            const productId = row.dataset.productId;
+            const monthlyRevenue = generateMonthlyRevenue(productId);
+            const priceChangeMonth = 3; // March
+            const productName = row.querySelector('.product-name').textContent;
+            const partNumber = row.querySelector('.part-number').textContent;
+            
+            // Update tooltip header
+            tooltip.querySelector('.revenue-tooltip-header').innerHTML = 
+            \`<span style="font-weight: 600;">Revenue Performance - Last 12 Months</span>
+     <span style="font-weight: 400;">\${partNumber.substring(0, 20)}</span>\`;
+            
+            
+            // Generate chart
+            generateRevenueChart(monthlyRevenue, priceChangeMonth);
+            
+            // Calculate forecast
+            calculateForecast(row);
+            
+            // Position tooltip
+            const rect = row.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            tooltip.style.display = 'block';
+            
+            // Calculate position to keep tooltip in viewport
+            let left = rect.right + scrollLeft + 10;
+            let top = rect.top + scrollTop;
+            
+            // Adjust if tooltip would go off screen
+            if (left + 340 > window.innerWidth) {
+                left = rect.left + scrollLeft - 350;
+            }
+            
+            if (top + tooltip.offsetHeight > window.innerHeight + scrollTop) {
+                top = window.innerHeight + scrollTop - tooltip.offsetHeight - 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+        
+        function hideRevenueTooltip() {
+            if (tooltip) {
+                tooltipTimeout = setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 300);
+            }
+        }
+        
+        function generateRevenueChart(monthlyRevenue, priceChangeMonth) {
+            const chartContainer = document.getElementById('revenueChart');
+            const monthLabelsContainer = document.getElementById('monthLabels');
+            const yAxis = document.getElementById('yAxis');
+            
+            if (!chartContainer || !monthLabelsContainer) return;
+            
+            //chartContainer.innerHTML = '<div class="y-axis-label">Revenue</div>';
+            monthLabelsContainer.innerHTML = '';
+            if (yAxis) yAxis.innerHTML = '';
+            
+            const maxRevenue = Math.max(...monthlyRevenue);
+            const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+            
+            // Create Y-axis labels
+            if (yAxis) {
+                const yAxisSteps = 5;
+                for (let i = yAxisSteps; i >= 0; i--) {
+                    const value = Math.round((maxRevenue / yAxisSteps) * i);
+                    const label = document.createElement('div');
+                    label.textContent = '$' + (value / 1000).toFixed(0) + 'k';
+                    yAxis.appendChild(label);
+                }
+            }
+            
+            monthlyRevenue.forEach((revenue, index) => {
+                // Create bar
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                if (index >= priceChangeMonth) {
+                    bar.classList.add('after-change');
+                }
+                bar.style.left = (10 + index * 22) + 'px';
+                bar.style.height = ((revenue / maxRevenue) * 120) + 'px';
+                bar.title = \`$\${revenue.toLocaleString()}\`;
+                chartContainer.appendChild(bar);
+                
+                // Create month label
+                const label = document.createElement('span');
+                label.textContent = months[index];
+                monthLabelsContainer.appendChild(label);
+            });
+            
+            // Add price change marker
+            if (priceChangeMonth > 0 && priceChangeMonth < 12) {
+                const marker = document.createElement('div');
+                marker.className = 'price-change-marker';
+                marker.style.left = (10 + priceChangeMonth * 25 - 1) + 'px';
+                marker.innerHTML = '<div class="price-change-label">Price Change (04/02/2025)</div>';
+                chartContainer.appendChild(marker);
+            }
+        }
+        
+        function calculateForecast(row) {
+            const currentPrice = parseFloat(row.cells[2].textContent.replace(/[$,]/g, ''));
+            const newPrice = parseFloat(row.cells[3].textContent.replace(/[$,]/g, ''));
+            const annualQty = parseInt(row.dataset.annualQty || '50');
+            
+            const currentRevenue = currentPrice * annualQty;
+            const newRevenue = newPrice * annualQty;
+            const difference = newRevenue - currentRevenue;
+            const percentChange = ((difference / currentRevenue) * 100).toFixed(1);
+            
+            const forecastValue = document.getElementById('forecastValue');
+            const forecastDetails = document.getElementById('forecastDetails');
+            
+            if (forecastValue && forecastDetails) {
+                const sign = difference >= 0 ? '+' : '-';
+                forecastValue.textContent = \`\${sign}$\${Math.abs(difference).toLocaleString()}\`;
+                forecastValue.className = \`forecast-value \${difference >= 0 ? 'forecast-positive' : 'forecast-negative'}\`;
+                
+                
+                forecastDetails.textContent = \`Based on \${annualQty} units/year sold (\${percentChange}% \${difference >= 0 ? 'increase' : 'decrease'})\`;
+            }
+        }
+        
+        // Loading Spinner Function
+        function showLoading(button) {
+            button.classList.add('loading');
+            button.disabled = true;
+        }
+        
+        function hideLoading(button) {
+            button.classList.remove('loading');
+            button.disabled = false;
+        }
+        
+        // Dual range slider functionality
+        function setupRangeSlider(prefix, min, max) {
+            const minRange = document.getElementById(prefix + 'MinRange');
+            const maxRange = document.getElementById(prefix + 'MaxRange');
+            const minInput = document.getElementById(prefix + 'Min');
+            const maxInput = document.getElementById(prefix + 'Max');
+            const track = document.getElementById(prefix + 'Track');
+            
+            if (!minRange || !maxRange || !minInput || !maxInput || !track) {
+                console.warn(\`Range slider elements not found for \${prefix}\`);
+                return;
+            }
+            
+            function updateTrack() {
+                const minVal = parseInt(minRange.value);
+                const maxVal = parseInt(maxRange.value);
+                const range = max - min;
+                
+                const minPercent = ((minVal - min) / range) * 100;
+                const maxPercent = ((maxVal - min) / range) * 100;
+                
+                track.style.left = minPercent + '%';
+                track.style.width = (maxPercent - minPercent) + '%';
+            }
+            
+            minRange.addEventListener('input', function() {
+                const minVal = parseInt(this.value);
+                const maxVal = parseInt(maxRange.value);
+                
+                if (minVal <= maxVal) {
+                    minInput.value = minVal;
+                    updateTrack();
+                } else {
+                    this.value = maxVal;
+                    minInput.value = maxVal;
+                }
+            });
+            
+            maxRange.addEventListener('input', function() {
+                const minVal = parseInt(minRange.value);
+                const maxVal = parseInt(this.value);
+                
+                if (maxVal >= minVal) {
+                    maxInput.value = maxVal;
+                    updateTrack();
+                } else {
+                    this.value = minVal;
+                    maxInput.value = minVal;
+                }
+            });
+            
+            minInput.addEventListener('change', function() {
+                const val = Math.max(min, Math.min(parseInt(this.value) || min, parseInt(maxInput.value)));
+                this.value = val;
+                minRange.value = val;
+                updateTrack();
+            });
+            
+            maxInput.addEventListener('change', function() {
+                const val = Math.min(max, Math.max(parseInt(this.value) || max, parseInt(minInput.value)));
+                this.value = val;
+                maxRange.value = val;
+                updateTrack();
+            });
+            
+            updateTrack();
+        }
+        
+        // Won rate color coding
+        function getWonRateColor(rate) {
+            const value = parseInt(rate);
+            if (value < 30) return 'won-rate-low';
+            if (value > 80) return 'won-rate-high';
+            return 'won-rate-mid';
+        }
+        
+        // Price change input handlers
+        function updatePriceDisplay(percentInput) {
+            const row = percentInput.closest('tr');
+            const currentSellPrice = parseFloat(row.cells[2].textContent.replace(/[$,]/g, ''));
+            const currentBasePrice = parseFloat(row.cells[4].textContent.replace(/[$,]/g, ''));
+            const percent = parseFloat(percentInput.value) || 0;
+            
+            const newSellPrice = currentSellPrice * (1 + percent / 100);
+            const newBasePrice = currentBasePrice * (1 + percent / 100);
+            
+            row.cells[3].textContent = '$' + Math.round(newSellPrice).toLocaleString('en-US');
+            row.cells[5].textContent = '$' + Math.round(newBasePrice).toLocaleString('en-US');
+            
+            // Update forecast if tooltip is open for this row
+            if (tooltip && tooltip.style.display === 'block') {
+                calculateForecast(row);
+            }
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all range sliders
+            setupRangeSlider('quotes', 0, 100);
+            setupRangeSlider('orders', 0, 100);
+            setupRangeSlider('conversion', 0, 100);
+            setupRangeSlider('qtyQuoted', 0, 1000);
+            setupRangeSlider('qtyOrdered', 0, 1000);
+            setupRangeSlider('stock', 0, 1000);
+            
+            // Apply won rate colors
+            document.querySelectorAll('.won-rate').forEach(el => {
+                const rate = parseInt(el.textContent);
+                el.className = 'won-rate column-group ' + getWonRateColor(rate);
+            });
+            
+            // Select all functionality
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function(e) {
+                    const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+                    checkboxes.forEach(cb => cb.checked = e.target.checked);
+                });
+            }
+            
+            // Price change input handlers
+            document.querySelectorAll('.price-change-input').forEach(input => {
+                input.addEventListener('input', function(e) {
+                    updatePriceDisplay(e.target);
+                });
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Column sorting
+            let sortColumn = null;
+            let sortDirection = 'asc';
+            
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    const columnIndex = Array.from(this.parentNode.children).indexOf(this);
+                    
+                    if (sortColumn === columnIndex) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = columnIndex;
+                        sortDirection = 'asc';
+                    }
+                    
+                    // Update visual indicators
+                    document.querySelectorAll('th.sortable').forEach(header => {
+                        header.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+                    this.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                    
+                    // Here you would implement actual sorting logic
+                    console.log(\`Sorting column \${columnIndex} \${sortDirection}\`);
+                });
+            });
+            
+            // Right-click context menu for columns
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.tagName === 'TH' || e.target.closest('th')) {
+                    e.preventDefault();
+                    const menu = document.getElementById('columnMenu');
+                    if (menu) {
+                        menu.style.display = 'block';
+                        menu.style.left = e.pageX + 'px';
+                        menu.style.top = e.pageY + 'px';
+                    }
+                }
+            });
+            
+            // Hide context menu on click outside
+            document.addEventListener('click', function(e) {
+                const menu = document.getElementById('columnMenu');
+                if (menu && !menu.contains(e.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+            
+            // Column visibility toggle
+            document.querySelectorAll('.context-menu-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Here you would implement actual column hiding/showing logic
+                    console.log(\`Toggle column: \${this.id} = \${this.checked}\`);
+                });
+            });
+            
+            // Row hover events for revenue tooltip
+            const tbody = document.querySelector('tbody');
+            if (tbody) {
+                tbody.addEventListener('mouseover', function(e) {
+                    const cell = e.target.closest('td');
+                    const row = e.target.closest('tr');
+                    
+                    if (cell && row && row.parentElement.tagName === 'TBODY') {
+                        const cellIndex = Array.from(row.cells).indexOf(cell);
+                        const columnGroup = getColumnGroup(cellIndex);
+                        
+                        // Hide any existing tooltips first
+                        hideRevenueTooltip();
+                        hidePriceChangeTooltip();
+                        
+                        if (columnGroup === 'product') {
+                            // Show price change tooltip for pricing columns (2-10)
+                            showPriceChangeTooltip(e, row);
+                        } else if (columnGroup === 'pricing' || columnGroup === 'sales') {
+                            // Show revenue tooltip for sales columns (11-15)
+                            showRevenueTooltip(e, row);
+                        }
+                        // No tooltip for product columns (0-1)
+                    }
+                });
+                
+                tbody.addEventListener('mouseout', function(e) {
+                    const relatedTarget = e.relatedTarget;
+                    if (!relatedTarget || 
+                    (!relatedTarget.closest('tr') && 
+                    !relatedTarget.closest('.revenue-tooltip') && 
+                    !relatedTarget.closest('.price-change-tooltip'))) {
+                        hideRevenueTooltip();
+                        hidePriceChangeTooltip();
+                    }
+                });
+            }
+            
+            // Tooltip hover events (to keep it open)
+            // Revenue tooltip hover events
+            if (tooltip) {
+                tooltip.addEventListener('mouseenter', () => clearTimeout(tooltipTimeout));
+                tooltip.addEventListener('mouseleave', hideRevenueTooltip);
+            }
+            
+            // Price tooltip hover events  
+            if (priceTooltip) {
+                priceTooltip.addEventListener('mouseenter', () => clearTimeout(priceTooltipTimeout));
+                priceTooltip.addEventListener('mouseleave', hidePriceChangeTooltip);
+            }
+            
+            // Calculate button loading state
+            const calculateBtn = document.getElementById('calculateBtn');
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', function() {
+                    showLoading(this);
+                    // Perform actual calculation
+                    setTimeout(() => {
+                        calculatePriceSuggestions();
+                        hideLoading(this);
+                        
+                        // Show a subtle notification that calculation is complete
+                        const productCount = document.querySelector('.product-count');
+                        if (productCount) {
+                            const originalText = productCount.textContent;
+                            productCount.textContent = '✓ Prices calculated';
+                            productCount.style.color = '#38a169';
+                            setTimeout(() => {
+                                productCount.textContent = originalText;
+                                productCount.style.color = '#718096';
+                            }, 3000);
+                        }
+                    }, 1000);
+                });
+            }
+        });
+        
+        
+        // Price Change Tooltip
+        
+        function showPriceChangeTooltip(event, row) {
+            clearTimeout(priceTooltipTimeout);
+            
+            if (!priceTooltip) return;
+            
+            // Extract data from the row
+            const productName = row.querySelector('.product-name').textContent;
+            const partNumber = row.querySelector('.part-number').textContent;
+            const currentSell = row.cells[2].textContent;
+            const suggestSell = row.cells[3].textContent;
+            const currentBase = row.cells[4].textContent;
+            const suggestBase = row.cells[5].textContent;
+            const priceChangePercent = row.cells[6].querySelector('input').value;
+            const maxDiscount = row.cells[7].textContent;
+            const discountPrice = row.cells[8].textContent;
+            const priorPrice = row.cells[9].textContent;
+            const lastChangeDate = row.cells[10].textContent;
+            
+            // Update tooltip content
+            document.getElementById('priceTooltipProductName').textContent = \`\${productName} (\${partNumber})\`;
+            document.getElementById('tooltipCurrentSell').textContent = currentSell;
+            document.getElementById('tooltipSuggestSell').textContent = suggestSell;
+            document.getElementById('tooltipCurrentBase').textContent = currentBase;
+            document.getElementById('tooltipSuggestBase').textContent = suggestBase;
+            document.getElementById('tooltipMaxDiscount').textContent = maxDiscount + '%';
+            document.getElementById('tooltipDiscountPrice').textContent = discountPrice;
+            document.getElementById('tooltipPriorPrice').textContent = priorPrice;
+            document.getElementById('tooltipLastChange').textContent = lastChangeDate;
+            
+            // Update price change indicators
+            const sellChangeEl = document.getElementById('tooltipSellChange');
+            const baseChangeEl = document.getElementById('tooltipBaseChange');
+            const changePercent = parseFloat(priceChangePercent) || 0;
+            
+            sellChangeEl.textContent = (changePercent > 0 ? '+' : '') + changePercent + '%';
+            baseChangeEl.textContent = (changePercent > 0 ? '+' : '') + changePercent + '%';
+            
+            // Apply appropriate styling
+            const changeClass = changePercent > 0 ? 'price-increase' : changePercent < 0 ? 'price-decrease' : 'price-no-change';
+            sellChangeEl.className = 'price-change-indicator ' + changeClass;
+            baseChangeEl.className = 'price-change-indicator ' + changeClass;
+            
+            // Calculate impact metrics
+            const currentSellValue = parseFloat(currentSell.replace(/[$,]/g, ''));
+            const suggestSellValue = parseFloat(suggestSell.replace(/[$,]/g, ''));
+            const marginImpact = ((suggestSellValue - currentSellValue) / currentSellValue * 100).toFixed(1);
+            
+            // Update impact summary (with mock data for demo)
+            document.getElementById('tooltipMarginImpact').textContent = 
+            marginImpact > 0 ? \`+\${marginImpact}%\` : \`\${marginImpact}%\`;
+            document.getElementById('tooltipMarginImpact').style.color = 
+            marginImpact > 0 ? '#38a169' : marginImpact < 0 ? '#e53e3e' : '#718096';
+            
+            // Mock volume change based on price change
+            const volumeChange = changePercent < 0 ? Math.abs(changePercent * 2) : -Math.abs(changePercent * 0.5);
+            document.getElementById('tooltipVolumeChange').textContent = 
+            volumeChange > 0 ? \`+\${volumeChange.toFixed(0)}%\` : \`\${volumeChange.toFixed(0)}%\`;
+            
+            // Mock confidence score
+            const confidence = 85 - Math.abs(changePercent) * 2;
+            document.getElementById('tooltipConfidence').textContent = \`\${confidence.toFixed(0)}%\`;
+            document.getElementById('tooltipConfidence').style.color = 
+            confidence > 70 ? '#38a169' : confidence > 50 ? '#ed8936' : '#e53e3e';
+            
+            // Position tooltip
+            const rect = event.target.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            priceTooltip.style.display = 'block';
+            
+            let left = rect.right + scrollLeft + 10;
+            let top = rect.top + scrollTop;
+            
+            // Adjust if tooltip would go off screen
+            if (left + 320 > window.innerWidth) {
+                left = rect.left + scrollLeft - 330;
+            }
+            
+            if (top + priceTooltip.offsetHeight > window.innerHeight + scrollTop) {
+                top = window.innerHeight + scrollTop - priceTooltip.offsetHeight - 10;
+            }
+            
+            priceTooltip.style.left = left + 'px';
+            priceTooltip.style.top = top + 'px';
+        }
+        
+        function hidePriceChangeTooltip() {
+            if (priceTooltip) {
+                priceTooltipTimeout = setTimeout(() => {
+                    priceTooltip.style.display = 'none';
+                }, 300);
+            }
+        }
+        
+        function getColumnGroup(cellIndex) {
+            // Based on the table structure:
+            // 0-1: Product Data
+            // 2-10: Pricing Data
+            // 11-15: Sales Data
+            if (cellIndex <= 1) return 'product';
+            if (cellIndex >= 2 && cellIndex <= 10) return 'pricing';
+            if (cellIndex >= 11 && cellIndex <= 15) return 'sales';
+            return null;
+        }
+        
+    </script>
+    
+    
+    
+    
+</body>
+</html>
+      `,
+      }}
+    />
+  )
+}
